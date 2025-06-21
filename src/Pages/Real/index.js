@@ -37,12 +37,12 @@ export function TempoReal() {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.botao} onPress={ligaLED}>
-        <Text style={styles.text}>Acender LED</Text>
+        <Text style={styles.text}>Abrir Tampa</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.botao} onPress={desligaLED}>
-        <Text style={styles.text}>Desligar LED</Text>
+        <Text style={styles.text}>Fechar Tampa</Text>
       </TouchableOpacity>
-      <Text style={styles.estado}>Estado atual do LED:</Text>
+      <Text style={styles.estado}>Estado atual:</Text>
       <Text style={styles.estado}>{estado}</Text>
     </View>
   );
