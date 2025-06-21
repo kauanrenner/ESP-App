@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Switch, StatusBar } from "react-native"
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker"
+import axios from "axios"
 
 export function Programado() {
     const [isEnabled, setIsEnabled] = useState(false)
@@ -12,6 +13,16 @@ export function Programado() {
     const onChange = (event, selectedTime) => {
         setShow(false);
         if (selectedTime) setTime(selectedTime);
+    }
+
+    const atualizaParametro = async () => {
+        if (isEnabled) {
+            await axios.get(`https://render-server-2itn.onrender.com/cliente?horario=${time.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}&modo=horario`)
+                .then(response => console.log(response.data))
+        } else if (!isEnabled) {
+            await axios.get(`https://render-server-2itn.onrender.com/cliente?intervalo=${time.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}&modo=intervalo`)
+                .then(response => console.log(response.data))
+        }
     }
 
     return (
@@ -30,20 +41,15 @@ export function Programado() {
                 <TouchableOpacity style={styles.btnConteudo} onPress={() => DateTimePickerAndroid.open({
                     value:time,
                     onChange,
-                    mode:'time',
+                    mode:"time",
                     is24Hour:true,
-                    display:"spinner"
+                    display:"clock"
                 })}>
-                    <Text style={styles.textoProximo}>Próximo Abastecimento: {time.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.intervalo}>
-                <TouchableOpacity style={styles.btnConteudo}>
-                    <Text style={styles.textoIntervalo}>Intervalo Abastecimento:</Text>
+                    <Text style={styles.textoProximo}>Horário ou Intervalo = {time.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.atualizar}>
-                <TouchableOpacity style={styles.btnAtualizar}>
+                <TouchableOpacity style={styles.btnAtualizar} onPress={atualizaParametro}>
                     <Text style={styles.txtAtualizar}>Atualizar Horários</Text>
                 </TouchableOpacity>
             </View>
@@ -67,7 +73,9 @@ const styles = StyleSheet.create({
         backgroundColor:"#808080",
         opacity:0.8,
         borderRadius:8,
-        width:"90%"
+        width:"90%",
+        justifyContent:"center",
+        alignItems:'center'
     },
     textoTopo:{
         fontSize:30,
@@ -84,7 +92,7 @@ const styles = StyleSheet.create({
     },
     textoProximo:{
         color:"white",
-        fontSize:30,
+        fontSize:28,
         padding:10
     },
     intervalo:{
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
     },
     textoIntervalo:{
         color:"white",
-        fontSize:30,
+        fontSize:28,
         padding:10
     },
     atualizar:{
