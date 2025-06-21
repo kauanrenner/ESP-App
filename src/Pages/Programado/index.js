@@ -16,11 +16,17 @@ export function Programado() {
     }
 
     const atualizaParametro = async () => {
+        let hora = time.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})
+        let hora_programada = time.getHours() + time.getMinutes/60
+        let atual_time = new Date()
+        let hora_atual = atual_time.getHours() + atual_time.getMinutes/60
+        let distancia = (hora_programada - hora_atual)*3600
+
         if (isEnabled) {
-            await axios.get(`https://render-server-2itn.onrender.com/cliente?horario=${time.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}&modo=horario`)
+            await axios.get(`https://render-server-2itn.onrender.com/cliente?modo=horario&distancia=${distancia}`)
                 .then(response => console.log(response.data))
         } else if (!isEnabled) {
-            await axios.get(`https://render-server-2itn.onrender.com/cliente?intervalo=${time.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}&modo=intervalo`)
+            await axios.get(`https://render-server-2itn.onrender.com/cliente?intervalo=${hora}&modo=intervalo`)
                 .then(response => console.log(response.data))
         }
     }
