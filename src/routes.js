@@ -1,13 +1,13 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { TempoReal } from "./Pages/Real";
 import { Programado } from "./Pages/Programado";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 export function Routes() {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator swipeEnabled={true} tabBarPosition="bottom" screenOptions={{tabBarStyle:{height:60, backgroundColor:"grey"}, tabBarLabelStyle:{color:"white", fontSize:14}}}>
             <Tab.Screen
                 name="Tempo Real"
                 component={TempoReal}
@@ -15,10 +15,10 @@ export function Routes() {
                     headerShown:false,
                     tabBarIcon: ({focused, size, color}) => {
                         if (focused) {
-                            return <MaterialIcons name="watch-off" size={size} color={color}/>
+                            return <MaterialIcons name="watch-off" size={size+4} color={"white"}/>
                         }
 
-                        return <MaterialIcons name="watch-off" size={size} color={color} />
+                        return <MaterialIcons name="watch-off" size={size} color={"white"} />
                     }
                 }}
             />
@@ -29,10 +29,10 @@ export function Routes() {
                     headerShown:false,
                     tabBarIcon: ({focused, size, color}) => {
                         if (focused) {
-                            return <MaterialIcons name="watch" size={size} color={color}/>
+                            return <MaterialIcons name="watch" size={size+4} color={"white"}/>
                         }
 
-                        return <MaterialIcons name="watch" size={size} color={color} />
+                        return <MaterialIcons name="watch" size={size} color={"white"} />
                     }
                 }}
             />

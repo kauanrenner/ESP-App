@@ -1,14 +1,11 @@
 import { useState } from "react"
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Switch, StatusBar } from "react-native"
+import { StyleSheet, Text, View, TouchableOpacity, Alert, StatusBar } from "react-native"
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker"
 import axios from "axios"
 
 export function Programado() {
-    const [isEnabled, setIsEnabled] = useState(false)
     const [show, setShow] = useState(false)
     const [time, setTime] = useState(new Date())
-
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
     const onChange = (event, selectedTime) => {
         setShow(false);
@@ -16,33 +13,16 @@ export function Programado() {
     }
 
     const atualizaParametro = async () => {
-        let hora = time.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})
-        let hora_programada = time.getHours() + time.getMinutes/60
-        let atual_time = new Date()
-        let hora_atual = atual_time.getHours() + atual_time.getMinutes/60
-        let distancia = (hora_programada - hora_atual)*3600
-
-        if (isEnabled) {
-            await axios.get(`https://render-server-2itn.onrender.com/cliente?modo=horario&distancia=${distancia}`)
-                .then(response => console.log(response.data))
-        } else if (!isEnabled) {
-            await axios.get(`https://render-server-2itn.onrender.com/cliente?intervalo=${hora}&modo=intervalo`)
-                .then(response => console.log(response.data))
-        }
+        let hora_atual = new Date();
+        let intervalo = (time - hora_atual) / 1000
+        await axios.get(`https://render-server-2itn.onrender.com/cliente?modo=horario&distancia=${intervalo}`)
+            .then(response => console.log(response.data))
+        Alert.alert("Horário Definido", `A ração do seu pet será reabastecida em ${Math.round(intervalo/60)} minutos.`)
     }
 
     return (
         <View style={styles.container}>
             <StatusBar translucent backgroundColor={"transparent"} barStyle={"light-content"} />
-            <View style={styles.modo}>
-                <Text style={styles.textoTopo}>Utilizar Hora Exata</Text>
-                <Switch 
-                    trackColor={{false: "white", true: "#2b58de"}}
-                    thumbColor={isEnabled ? "#2b58de" : "white"}
-                    onValueChange={toggleSwitch}
-                    value={isEnabled}
-                />
-            </View>
             <View style={styles.proximo}>
                 <TouchableOpacity style={styles.btnConteudo} onPress={() => DateTimePickerAndroid.open({
                     value:time,

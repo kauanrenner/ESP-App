@@ -6,20 +6,6 @@ export function TempoReal() {
 
   const [estado, setEstado] = useState("");
 
-  /*useEffect(() => {
-    const interval = setInterval(() => {
-      axios.get("https://render-server-2itn.onrender.com/led=status")
-        .then(response => {
-          const state = response.data
-          setEstado(response.data.estado)
-        })
-        .catch(error => {
-          console.log("Erro ao buscar estado do LED: ", error)
-          setEstado("Erro ao verificar")
-        })
-    }, 1000);
-  })*/
-
   const ligaLED = async () => {
     await axios.get("https://render-server-2itn.onrender.com/led=on")
       .then(response => {
