@@ -2,7 +2,7 @@
   "expo": {
     "name": "Alimente o PET",
     "slug": "FeedApp",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/osso.png",
     "userInterfaceStyle": "light",
@@ -17,14 +17,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/osso.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.eupitomuito.FeedApp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/osso.png"
     },
     "extra": {
       "eas": {
