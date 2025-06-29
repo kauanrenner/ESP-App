@@ -15,8 +15,12 @@ export function Programado() {
     const atualizaParametro = async () => {
         let hora_atual = new Date();
         let intervalo = (time - hora_atual) / 1000
-        await axios.get(`https://render-server-2itn.onrender.com/cliente?modo=horario&distancia=${intervalo}`)
-            .then(response => console.log(response.data))
+        try {
+            await axios.get(`https://render-server-2itn.onrender.com/cliente?modo=horario&distancia=${intervalo}`)
+                .then(response => console.log(response.data))
+        } catch (error) {
+            console.log("Erro: ", error)
+        }
         Alert.alert("Horário Definido", `A ração do seu pet será reabastecida em ${Math.round(intervalo/60)} minutos.`)
     }
 

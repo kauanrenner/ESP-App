@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, StatusBar } from 'react-native';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -7,21 +7,30 @@ export function TempoReal() {
   const [estado, setEstado] = useState("");
 
   const ligaLED = async () => {
-    await axios.get("https://render-server-2itn.onrender.com/led=on")
-      .then(response => {
-        setEstado(response.data.estado)
-      })
+    try {
+      await axios.get("https://render-server-2itn.onrender.com/led=on")
+        .then(response => {
+          setEstado(response.data.estado)
+        })
+    } catch (error) {
+      console.log("Erro: ", error)
+    }
   }
 
   const desligaLED = async () => {
-    await axios.get("https://render-server-2itn.onrender.com/led=off")
-      .then(response => {
-        setEstado(response.data.estado)
-      })
+    try {
+      await axios.get("https://render-server-2itn.onrender.com/led=off")
+        .then(response => {
+          setEstado(response.data.estado)
+        })
+    } catch (error) {
+      console.log("Erro: ", error)
+    }
   }
 
   return (
     <View style={styles.container}>
+      <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
       <TouchableOpacity style={styles.botao} onPress={ligaLED}>
         <Text style={styles.text}>Abrir Tampa</Text>
       </TouchableOpacity>
